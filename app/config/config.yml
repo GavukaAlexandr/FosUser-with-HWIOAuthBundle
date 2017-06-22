@@ -10,7 +10,7 @@ parameters:
 
 framework:
     #esi: ~
-    #translator: { fallbacks: ['%locale%'] }
+    translator: { fallbacks: ['%locale%'] }
     secret: '%secret%'
     router:
         resource: '%kernel.root_dir%/config/routing.yml'
@@ -68,3 +68,39 @@ swiftmailer:
     username: '%mailer_user%'
     password: '%mailer_password%'
     spool: { type: memory }
+
+fos_user:
+    db_driver: orm # other valid values are 'mongodb' and 'couchdb'
+    firewall_name: main
+    user_class: AppBundle\Entity\User
+#    registration:
+#        form:
+#            type: AppBundle\Form\RegistrationType
+#           возможно нужно дописать класс форму
+    from_email:
+        address: "admin@admin.com"
+        sender_name: "admin"
+
+hwi_oauth:
+    connect:
+        confirmation: true
+        registration_form: fos_user.registration.form.factory
+    firewall_names: [main]
+    fosub:
+        username_iterations: 30
+        properties:
+            facebook: facebookID
+            google: googleID
+    resource_owners:
+        # Facebook Access
+        facebook:
+            type:             facebook
+            client_id:        1932882250334505
+            client_secret:    cc610c419f48384855bf36fd2239abec
+            scope:            "email"
+        # Google Access
+        google:
+            type:             google
+            client_id:        974566499502-vdu5scaiqal8tljq6dbeikgjcp7a9p4r.apps.googleusercontent.com
+            client_secret:    xPoJyUccdC-TLrbj1Dsc_rQq
+            scope:            "email"
