@@ -11,6 +11,7 @@
 
 namespace UserOverrideBundle\Controller;
 
+use AppBundle\Entity\User;
 use HWI\Bundle\OAuthBundle\OAuth\ResourceOwnerInterface;
 use HWI\Bundle\OAuthBundle\Security\Core\Authentication\Token\OAuthToken;
 use HWI\Bundle\OAuthBundle\Security\Core\Exception\AccountNotLinkedException;
@@ -113,48 +114,48 @@ class ConnectController extends Controller
             // todo: fix this
             throw new \Exception('Cannot register an account.', 0, $error instanceof \Exception ? $error : null);
         }
-//todo-----------------------------------------------------------------------------------------------------------------
 
         $userInformation = $this
             ->getResourceOwnerByName($error->getResourceOwnerName())
             ->getUserInformation($error->getRawToken())
         ;
 
-        if ($this->container->getParameter('hwi_oauth.fosub_enabled')) {
-            // enable compatibility with FOSUserBundle 1.3.x and 2.x
-            if (interface_exists('FOS\UserBundle\Form\Factory\FactoryInterface')) {
-                $form = $this->container->get('hwi_oauth.registration.form.factory')->createForm();
-            } else {
-                $form = $this->container->get('hwi_oauth.registration.form');
+        $user = $this->getDoctrine()->getRepository('AppBundle:User')->findOneBy(['email' => $userInformation->getEmail()]);
+
+        if ($user === null) {
+            $user = new User();
+            $user->setUsername($userInformation->getNickname());
+            $user->setUsernameCanonical($userInformation->getNickname());
+            $user->setEmail($userInformation->getEmail());
+            $user->setEmailCanonical($userInformation->getEmail());
+            $user->setEnabled(1);
+            $user->setPassword('$2y$13$4lz3CE34U70IJyZ5zkAMee7y3wJTqBpG6vymlhG7RqjncEE8hmCUe');
+            $user->setRoles(['a:0:{}']);
+            if ($userInformation->getResourceOwner()->getName() === "facebook") {
+                $user->setFacebookID($userInformation->getUsername());
             }
-        } else {
-            $form = $this->container->get('hwi_oauth.registration.form');
+            if ($userInformation->getResourceOwner()->getName() === "google") {
+                $user->setGoogleID($userInformation->getUsername());
+            }
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($user);
+            $em->flush();
         }
 
-        $formHandler = $this->container->get('hwi_oauth.registration.form.handler');
-        if ($formHandler->process($request, $form, $userInformation)) {
-            $this->container->get('hwi_oauth.account.connector')->connect($form->getData(), $userInformation);
-//todo-----------------------------------------------------------------------------------------------------------------
-            // Authenticate the user
-            $this->authenticateUser($request, $form->getData(), $error->getResourceOwnerName(), $error->getRawToken());
+        $this->authenticateUser($request, $user, $error->getResourceOwnerName(), $error->getRawToken());
 
-            if ($targetPath = $this->getTargetPath($session)) {
-                return $this->redirect($targetPath);
-            }
 
-            //todo вывод после успешной аутентификации
-            return $this->render('HWIOAuthBundle:Connect:registration_success.html.'.$this->getTemplatingEngine(), array(
-                'userInformation' => $userInformation,
-            ));
-        }
 
         // reset the error in the session
         $key = time();
         $session->set('_hwi_oauth.registration_error.'.$key, $error);
 
-        return $this->render('HWIOAuthBundle:Connect:registration.html.'.$this->getTemplatingEngine(), array(
-            'key' => $key,
-            'form' => $form->createView(),
+//        return $this->render('HWIOAuthBundle:Connect:registration.html.'.$this->getTemplatingEngine(), array(
+//            'key' => $key,
+//            'form' => $form->createView(),
+//            'userInformation' => $userInformation,
+//        ));
+        return $this->render('HWIOAuthBundle:Connect:registration_success.html.' . $this->getTemplatingEngine(), array(
             'userInformation' => $userInformation,
         ));
     }

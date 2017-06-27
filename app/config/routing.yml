@@ -1,3 +1,7 @@
+fos_user_override:
+    resource: "@FosUserOverrideBundle/Resources/config/routing.yml"
+    prefix:   /
+
 user_override:
     resource: "@UserOverrideBundle/Resources/config/routing.yml"
     prefix:   /
