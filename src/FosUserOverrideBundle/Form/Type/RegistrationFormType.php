@@ -41,14 +41,16 @@ class RegistrationFormType extends AbstractType
                 array(
                     'label' => false,
                     'attr' => array(
-                        'class' => 'form-control'
+                        'class' => 'form-control',
+                        'placeholder' => 'Email'
                     )
                 ))
             ->add('username',
                 null, array(
                     'label' => false,
                     'attr' => array(
-                        'class' => 'form-control'
+                        'class' => 'form-control',
+                        'placeholder' => 'Username'
                     )
                 ))
             ->add('plainPassword',
@@ -59,13 +61,15 @@ class RegistrationFormType extends AbstractType
                 'first_options' => array(
                     'label' => false,
                     'attr' => array(
-                        'class' => 'form-control'
+                        'class' => 'form-control',
+                        'placeholder' => 'password'
                     )
                 ),
                 'second_options' => array(
                     'label' => false,
                     'attr' => array(
-                        'class' => 'form-control'
+                        'class' => 'form-control',
+                        'placeholder' => 'repeat password'
                     )
                 ),
                 'invalid_message' => 'fos_user.password.mismatch',
