@@ -36,13 +36,38 @@ class RegistrationFormType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('email', LegacyFormHelper::getType('Symfony\Component\Form\Extension\Core\Type\EmailType'), array('label' => false /*'form.email', 'translation_domain' => 'FOSUserBundle'*/))
-            ->add('username', null, array('label' => false /*'form.username', 'translation_domain' => 'FOSUserBundle'*/))
-            ->add('plainPassword', LegacyFormHelper::getType('Symfony\Component\Form\Extension\Core\Type\RepeatedType'), array(
+            ->add('email',
+                LegacyFormHelper::getType('Symfony\Component\Form\Extension\Core\Type\EmailType'),
+                array(
+                    'label' => false,
+                    'attr' => array(
+                        'class' => 'form-control'
+                    )
+                ))
+            ->add('username',
+                null, array(
+                    'label' => false,
+                    'attr' => array(
+                        'class' => 'form-control'
+                    )
+                ))
+            ->add('plainPassword',
+                LegacyFormHelper::getType('Symfony\Component\Form\Extension\Core\Type\RepeatedType'),
+                array(
                 'type' => LegacyFormHelper::getType('Symfony\Component\Form\Extension\Core\Type\PasswordType'),
                 'options' => array('translation_domain' => 'FOSUserBundle'),
-                'first_options' => array('label' => false /*'form.password'*/),
-                'second_options' => array('label' => false /*'form.password_confirmation'*/),
+                'first_options' => array(
+                    'label' => false,
+                    'attr' => array(
+                        'class' => 'form-control'
+                    )
+                ),
+                'second_options' => array(
+                    'label' => false,
+                    'attr' => array(
+                        'class' => 'form-control'
+                    )
+                ),
                 'invalid_message' => 'fos_user.password.mismatch',
             ));
     }
