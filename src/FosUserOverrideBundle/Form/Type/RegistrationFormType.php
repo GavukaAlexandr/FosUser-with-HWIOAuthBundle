@@ -45,7 +45,7 @@ class RegistrationFormType extends AbstractType
                         'placeholder' => 'Email'
                     )
                 ))
-            ->add('username',
+            ->remove('username',
                 null, array(
                     'label' => false,
                     'attr' => array(

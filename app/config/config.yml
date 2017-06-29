@@ -78,6 +78,7 @@ fos_user:
     registration:
         form:
             type: FosUserOverrideBundle\Form\Type\RegistrationFormType
+            validation_groups: [FosUserOverride]
     from_email:
         address: "admin@admin.com"
         sender_name: "admin"
