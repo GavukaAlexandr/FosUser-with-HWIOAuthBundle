@@ -9,6 +9,7 @@ imports:
 # http://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
     locale: en
+    app.uploads_music_dir: '%kernel.root_dir%/../web/uploads/music'
 
 framework:
     #esi: ~
@@ -78,7 +79,7 @@ fos_user:
     registration:
         form:
             type: FosUserOverrideBundle\Form\Type\RegistrationFormType
-            validation_groups: [FosUserOverride]
+            validation_groups: [FosUserOverrideRegistration]
     from_email:
         address: "admin@admin.com"
         sender_name: "admin"
