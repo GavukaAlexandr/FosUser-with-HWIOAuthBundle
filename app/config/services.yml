@@ -10,8 +10,15 @@ services:
 
     #FOSUserBundle
     #Registration
-        app.form.registration:
-            class: FosUserOverrideBundle\Form\Type\RegistrationFormType
-            arguments: ['LegacyFormHelper']
-            tags:
-                - { name: form.type, alias: app_user_registration }
+    app.form.registration:
+        class: FosUserOverrideBundle\Form\Type\RegistrationFormType
+        arguments: ['LegacyFormHelper']
+        tags:
+            - { name: form.type, alias: app_user_registration }
+
+    app.form.profile:
+        class: FosUserOverrideBundle\Form\Type\ProfileFormType
+        arguments: ['LegacyFormHelper']
+        tags:
+            - { name: form.type, alias: app_user_profile }
+
