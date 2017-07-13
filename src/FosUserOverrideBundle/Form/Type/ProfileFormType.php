@@ -47,32 +47,65 @@ class ProfileFormType extends AbstractType
         }
 
         $builder
-            ->add('email', LegacyFormHelper::getType('Symfony\Component\Form\Extension\Core\Type\EmailType'), array('label' => 'form.email', 'translation_domain' => 'FOSUserBundle'))
+            ->add('email', LegacyFormHelper::getType('Symfony\Component\Form\Extension\Core\Type\EmailType'), array('label' => 'Email*', 'translation_domain' => 'FOSUserBundle'))
             ->add('email_me', CheckboxType::class,
                 [
                     'label' => 'Please email me about updates and news',
                     'label_attr' => [
-                        'class' => 'col-sm-4 control-label'
-                    ]
+                        'class' => 'col-sm-4 control-label',
+                    ],
+                    'required' => false
+
                 ])
             ->add('current_password', LegacyFormHelper::getType('Symfony\Component\Form\Extension\Core\Type\PasswordType'), array(
-                'label' => 'password',
+                'label' => 'Password*',
                 'translation_domain' => 'FOSUserBundle',
                 'mapped' => false,
                 'constraints' => new UserPassword($constraintsOptions),
             ))
-            ->add('first_name', TextType::class)
-            ->add('last_name', TextType::class)
-            ->add('business_name', TextType::class)
-            ->add('address', TextType::class)
-            ->add('city', TextType::class)
-            ->add('region', TextType::class)
-            ->add('zip_code', TextType::class)
-            ->add('Country', TextType::class)
-            ->add('vat_number', TextType::class)
+            ->add('first_name', TextType::class,
+                [
+                    'label' => 'First Name*'
+                ])
+            ->add('last_name', TextType::class,
+                [
+                    'label' => 'Last Name(Family Name)*'
+                ])
+            ->add('business_name', TextType::class,
+                [
+                    'label' => 'Business Name(Optional)',
+                    'label_attr' => [
+                    ],
+                    'required' => false
+                ])
+            ->add('address', TextType::class,
+                [
+                    'label' => 'Address*'
+                ])
+            ->add('city', TextType::class,
+                [
+                    'label' => 'City*'
+                ])
+            ->add('region', TextType::class,
+                [
+                    'label' => 'Region*'
+                ])
+            ->add('zip_code', TextType::class,
+                [
+                    'label' => 'Zip Code(Postal Code)*'
+                ])
+            ->add('Country', TextType::class,
+                [
+                    'label' => 'Country*'
+                ])
             ->add('vat_number', TextType::class,
                 [
-                    'label' => 'VAT number'
+                    'label' => 'VAT number(if applicable)',
+                    'label_attr' => [
+                    ],
+                    'required' => false
+
+
                 ])
             ->remove('username')
         ;
