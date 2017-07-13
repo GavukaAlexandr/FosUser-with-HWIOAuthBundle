@@ -14,6 +14,7 @@ namespace FosUserOverrideBundle\Form\Type;
 use FOS\UserBundle\Util\LegacyFormHelper;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Security\Core\Validator\Constraints\UserPassword;
@@ -94,9 +95,13 @@ class ProfileFormType extends AbstractType
                 [
                     'label' => 'Zip Code(Postal Code)*'
                 ])
-            ->add('Country', TextType::class,
+            ->add('Country', ChoiceType::class,
                 [
-                    'label' => 'Country*'
+                    'label' => 'Country*',
+                    'choices' => [
+                        'USA' => 'USA',
+                        'Canada' => 'Canada'
+                    ]
                 ])
             ->add('vat_number', TextType::class,
                 [
